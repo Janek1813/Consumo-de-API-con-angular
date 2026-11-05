@@ -1,4 +1,3 @@
-
 services:
   laravel:
     build:
@@ -34,6 +33,22 @@ services:
       - ./frontend:/app
     ports:
       - "4201:4200"
+
+  api-libros:
+    build:
+      context: ./api-libros
+    container_name: desarrollo_api_libros
+    working_dir: /var/www/html
+    volumes:
+      - ./api-libros:/var/www/html
+    ports:
+      - "8002:8000"
+    environment:
+      DB_CONNECTION: "mongodb"
+      DB_URI: "mongodb://devroot:devpass@mongo:27017/?authSource=admin"
+      DB_DATABASE: "api_libros"
+    depends_on:
+      - mongo
 
   mongo:
     image: docker.io/library/mongo:7.0
